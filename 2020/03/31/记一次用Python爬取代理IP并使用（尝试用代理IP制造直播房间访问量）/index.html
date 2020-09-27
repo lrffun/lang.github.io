@@ -1,0 +1,214 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>记一次用Python爬取代理IP并使用（尝试用代理IP制造直播房间访问量） - Nero</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Nero,"> 
+    <meta name="description" content="前言
+首先说一下代理IP的用法途（代码中会有涉及）：代理IP可以用来隐藏你的真实IP，你访问网站是通过代理服务器来做一个中转，所以目标服务器只能看到代理服务器的IP地址，这样就可以让你的IP地址实现,"> 
+    <meta name="author" content="Nero"> 
+    <link rel="alternative" href="atom.xml" title="Nero" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Nero</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">记一次用Python爬取代理IP并使用（尝试用代理IP制造直播房间访问量）</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">记一次用Python爬取代理IP并使用（尝试用代理IP制造直播房间访问量）</h1>
+        <div class="stuff">
+            <span>三月 31, 2020</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li>首先说一下代理IP的用法途（代码中会有涉及）：代理IP可以用来隐藏你的真实IP，你访问网站是通过代理服务器来做一个中转，所以目标服务器只能看到代理服务器的IP地址，这样就可以让你的IP地址实现隐身的功能 </li>
+</ul>
+<h2 id="准备工作"><a href="#准备工作" class="headerlink" title="准备工作"></a>准备工作</h2><ul>
+<li>我这边是找到了一个平台：<a target="_blank" rel="noopener" href="https://www.kuaidaili.com/%EF%BC%8C%E5%85%88%E5%9C%A8%E5%9C%B0%E5%9D%80%E5%90%8E%E9%9D%A2%E5%8A%A0robots.txt%E6%9F%A5%E7%9C%8B%E5%B9%B3%E5%8F%B0%E7%9A%84robots%E5%8D%8F%E8%AE%AE%EF%BC%88https://www.kuaidaili.com/robots.txt%EF%BC%89%E5%A6%82%E4%B8%8B%EF%BC%8C%E5%8F%AF%E4%BB%A5%E7%9C%8B%E5%88%B0%E5%B9%B3%E5%8F%B0%E6%9C%AA%E6%98%8E%E4%BB%A4%E7%A6%81%E6%AD%A2%E7%88%AC%E8%99%AB%E7%88%AC%E5%8F%96%E7%9A%84%E9%A1%B5%E9%9D%A2%EF%BC%8C%E9%82%A3%E6%88%91%E4%BB%AC%E5%B0%B1%E5%8F%AF%E4%BB%A5%E6%94%BE%E5%BF%83%E7%88%AC%E4%BA%86%E3%80%82">https://www.kuaidaili.com/，先在地址后面加robots.txt查看平台的robots协议（https://www.kuaidaili.com/robots.txt）如下，可以看到平台未明令禁止爬虫爬取的页面，那我们就可以放心爬了。</a><br><img src="https://img-blog.csdnimg.cn/20200331123756470.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>按f12分析一下页面先，左上角箭头选中ip之后直接右键复制XPath。<br><img src="https://img-blog.csdnimg.cn/20200331124128212.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>测试后发现，IP不是通过接口传输的，而是存在在静态页面上，这就省事很多了。</li>
+<li>并且，点击下一页后，url变化很小。</li>
+<li>url很简单，这里就不过多分析了，直接上代码。<h2 id="上代码"><a href="#上代码" class="headerlink" title="上代码"></a>上代码</h2></li>
+<li>首先爬取前五页。（这里要注意加上headers模拟浏览器访问）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#爬取数据</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_ip</span>():</span></span><br><span class="line">    <span class="keyword">for</span> page <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">5</span>):</span><br><span class="line">        print(<span class="string">&quot;=============================正在抓取第&#123;&#125;页数据==============&quot;</span>.format(page))</span><br><span class="line">        base_url = <span class="string">&#x27;https://www.kuaidaili.com/free/inha/&#123;&#125;/&#x27;</span>.format(page)</span><br><span class="line">        headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>:<span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0&#x27;</span>&#125;</span><br><span class="line">    </span><br><span class="line">        response = requests.get(base_url,headers=headers)</span><br><span class="line">        data = response.text</span><br><span class="line">        <span class="comment">#print(data)</span></span><br><span class="line">        html_data = parsel.Selector(data)</span><br><span class="line">        <span class="comment"># 解析数据</span></span><br><span class="line">        parsel_list = html_data.xpath(<span class="string">&#x27;//table[@class=&quot;table table-bordered table-striped&quot;]/tbody/tr&#x27;</span>)</span><br><span class="line">        <span class="keyword">for</span> tr <span class="keyword">in</span> parsel_list:</span><br><span class="line">            proxies_dict = &#123;&#125; </span><br><span class="line">            http_type = tr.xpath(<span class="string">&#x27;./td[4]/text()&#x27;</span>).extract_first()  <span class="comment">#用xpath找到目标</span></span><br><span class="line">            ip_num = tr.xpath(<span class="string">&#x27;./td[1]/text()&#x27;</span>).extract_first()</span><br><span class="line">            ip_port = tr.xpath(<span class="string">&#x27;./td[2]/text()&#x27;</span>).extract_first()</span><br><span class="line">            proxies_dict[http_type] = ip_num + <span class="string">&#x27;:&#x27;</span> + ip_port	<span class="comment">#将ip地址和端口号用&quot;:&quot;连接</span></span><br><span class="line">            proxies_list.append(proxies_dict)</span><br><span class="line">            print(proxies_dict)</span><br><span class="line">            time.sleep(<span class="number">0.5</span>) </span><br><span class="line">        print(proxies_list) </span><br><span class="line">        print(<span class="string">&quot;获取到的代理ip数量：&quot;</span>,len(proxies_list))</span><br><span class="line">    <span class="keyword">return</span> proxies_list</span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后，考虑到有些ip能用，有些ip不能用，所以需要对其进行清洗。剔除不能用的或反应慢的。这里可以试着用代理ip访问一下百度首页，并检测返回状态来确定ip是否可用。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check_ip</span>(<span class="params">proxies_list</span>):</span></span><br><span class="line">    <span class="string">&quot;&quot;&quot;检测代理ip的质量&quot;&quot;&quot;</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0&#x27;</span>&#125;</span><br><span class="line">    can_use = []</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> proxy <span class="keyword">in</span> proxies_list:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            response = requests.get(<span class="string">&#x27;https://www.baidu.com&#x27;</span>,headers=headers,proxies=proxy,timeout=<span class="number">0.08</span>)         <span class="comment">#代理ip使用方式，如果要筛选更快的ip，timeout可适当降低</span></span><br><span class="line">            <span class="keyword">if</span> response.status_code == <span class="number">200</span>: <span class="comment">#返回状态码为200即为可用</span></span><br><span class="line">                can_use.append(proxy)</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            print(e)</span><br><span class="line">    <span class="keyword">return</span> can_use</span><br></pre></td></tr></table></figure>
+<ul>
+<li>简单组合一下，爬取部分就算搞完了。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ip_list = get_ip()	<span class="comment">#获取IP</span></span><br><span class="line">can_use = can_use(ip_list)	<span class="comment">#清洗IP</span></span><br></pre></td></tr></table></figure>
+<h2 id="代理IP使用"><a href="#代理IP使用" class="headerlink" title="代理IP使用"></a>代理IP使用</h2><ul>
+<li>这是我当时脑门一热想到的通过用代理ip进入直播间来增加人气，实验后发现，我太天真了，实验失败，根本不能增加人气，各位可以传入别的网址来实现用代理IP访问固定网站，can_use参数就传入上面得到的can_use就行。<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">start</span>(<span class="params">url,can_use</span>):</span></span><br><span class="line">    headers = &#123;<span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:75.0) Gecko/20100101 Firefox/75.0&#x27;</span>&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> proxy <span class="keyword">in</span> can_use:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            response = requests.get(url,headers=headers,proxies=proxy,timeout=<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">if</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">                print(<span class="string">&quot;进入直播间。。。&quot;</span>)</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            print(e)</span><br></pre></td></tr></table></figure></li>
+<li>其次，我觉得如果用代理IP爬取网站内容的话，可能会绕过网站的反爬策略，只是思考了一下，并未实践。</li>
+<li>或者也可以将代理IP写入数据库，留着慢慢用。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 入库</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">engine_in</span>(<span class="params">ip_list</span>):</span></span><br><span class="line">    conn = pymysql.connect(host=<span class="string">&#x27;localhost&#x27;</span>,user=<span class="string">&#x27;root&#x27;</span>,password=<span class="string">&#x27;123&#x27;</span>,database=<span class="string">&#x27;size&#x27;</span>,port=<span class="number">3306</span>) <span class="comment">#连接数据库</span></span><br><span class="line">    cursor = conn.cursor()</span><br><span class="line">    <span class="keyword">for</span> ip <span class="keyword">in</span> ip_list:</span><br><span class="line">        sql = <span class="string">&quot;INSERT INTO ip(ip) values(&#x27;&quot;</span> + ip + <span class="string">&quot;&#x27;);&quot;</span> <span class="comment">#SQL语句</span></span><br><span class="line">        cursor.execute(sql) <span class="comment">#执行SQL语句</span></span><br><span class="line">        conn.commit()</span><br><span class="line">    conn.close()</span><br></pre></td></tr></table></figure>
+
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><ul>
+<li>Tip：写爬虫前首先要看一下该网站的robots.txt协议是否允许爬取，在其允许范围内适当爬取数据。<blockquote>
+<p>爬取代理ip的想法是我从某学习平台学到的，若有冒犯，请联系删除</p>
+</blockquote>
+</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='https://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.xf1433.com/up/view.php/9afe0c372d5dd4641033e61ae0fa82de.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E5%B7%A5%E4%BD%9C"><span class="toc-number">2.</span> <span class="toc-text">准备工作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8A%E4%BB%A3%E7%A0%81"><span class="toc-number">3.</span> <span class="toc-text">上代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%A3%E7%90%86IP%E4%BD%BF%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">代理IP使用</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E8%AE%B0"><span class="toc-number">5.</span> <span class="toc-text">后记</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>

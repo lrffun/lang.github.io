@@ -1,0 +1,246 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>记一次用Python爬取超星学习通课后小测验并写入Word文档（完整思路） - Nero</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Nero,"> 
+    <meta name="description" content="前言
+开门见山，直接切入正题，先看最终效果
+最终效果很理想，但这个过程是非常残酷的。
+
+爬取流程敲代码前的试探
+先实验能否直接得到题目。
+
+12345678910111213import reque,"> 
+    <meta name="author" content="Nero"> 
+    <link rel="alternative" href="atom.xml" title="Nero" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Nero</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">记一次用Python爬取超星学习通课后小测验并写入Word文档（完整思路）</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">记一次用Python爬取超星学习通课后小测验并写入Word文档（完整思路）</h1>
+        <div class="stuff">
+            <span>五月 25, 2020</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><ul>
+<li>开门见山，直接切入正题，先看最终效果<br><img src="https://img-blog.csdnimg.cn/20200525180742278.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><img src="https://img-blog.csdnimg.cn/20200525180825108.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>最终效果很理想，但这个过程是非常残酷的。</li>
+</ul>
+<h1 id="爬取流程"><a href="#爬取流程" class="headerlink" title="爬取流程"></a>爬取流程</h1><h2 id="敲代码前的试探"><a href="#敲代码前的试探" class="headerlink" title="敲代码前的试探"></a>敲代码前的试探</h2><ul>
+<li>先实验能否直接得到题目。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> requests</span><br><span class="line">courseId = <span class="number">208420018</span></span><br><span class="line">mHeaders = &#123;</span><br><span class="line">    <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">r&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) &#x27;</span></span><br><span class="line">                  <span class="string">r&#x27;Chrome/45.0.2454.85 Safari/537.36 115Browser/6.0.3&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line">url = <span class="string">&quot;https://mooc1.chaoxing.com/nodedetailcontroller/visitnodedetail?courseId=208255733&amp;knowledgeId=263215264&quot;</span></span><br><span class="line"></span><br><span class="line">mHtml = requests.get(url,headers = mHeaders).content.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line"><span class="keyword">if</span> <span class="string">&#x27;人类进入21世纪&#x27;</span> <span class="keyword">in</span> mHtml:</span><br><span class="line">    print(<span class="string">&#x27;甩了&#x27;</span>)</span><br><span class="line"><span class="keyword">else</span>:</span><br><span class="line">    print(<span class="string">&#x27;不妥&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>输出结果——不妥，说明并不能够通过静态页面直接爬取题目。一般经验肯定是认为是接口传输的，于是开始找接口。。。。<br><img src="https://img-blog.csdnimg.cn/20200525194057244.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>但是，网络传输的数据除了图片就剩html，css和js了，根本找不到传输题目的接口。</li>
+<li>当我把指针选中所有题目时，我发现了一个以我的前端知识理解不了的东西。<br><img src="https://img-blog.csdnimg.cn/20200525194727373.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>Html中又镶嵌了一个Html，emmm…..这就触及到我的知识盲区了。而且，点击下面的iframe标签里的src会跳转到一个新的页面，而这个页面正是所有的测验题目！！！<br><img src="https://img-blog.csdnimg.cn/20200525194957159.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>用postman简单Get一下，发现能够得到所有的题目！<br><img src="https://img-blog.csdnimg.cn/20200525195204505.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>接下来就改分析url了，总共有7个参数，其中下图打√的是必须的，其他几个可以不加。方法：用postman挨个请求就行。对于这三个参数，courseId是本来就知道的，那么我们的目标就是找到workId和knowledgeid即可。<br><img src="https://img-blog.csdnimg.cn/20200525195515841.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>一番寻找后，发现knowledgeid通过静态页面就能获取。<br><img src="https://img-blog.csdnimg.cn/202005252001593.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>而workId在刚才找到的iframe标签的测验地址里，有人可能会问，那为啥不直接用测验地址呢，这我也试过，但是postman请求后的结果发现，得到的iframe标签里并没有地址，但是有个data属性，其中基本全是html转义符。<br><img src="https://img-blog.csdnimg.cn/20200525200557642.png" alt="在这里插入图片描述"></li>
+<li>用Python的html库反转义后可得到workId。（后来发现，反转义与否不影响获取，直接用正则表达式就可以得到）<br><img src="https://img-blog.csdnimg.cn/20200525200851250.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><h2 id="通过试探，总结一下编程思路。"><a href="#通过试探，总结一下编程思路。" class="headerlink" title="通过试探，总结一下编程思路。"></a>通过试探，总结一下编程思路。</h2></li>
+</ul>
+<ol>
+<li>首先得到课程ID（courseId），并组成url供后续访问得到章节ID(knowledgeId)；</li>
+<li>其次，通过访问主页面得到每一个knowledgeId，将knowledgeId和courseId组成url供后续获取workId；</li>
+<li>然后，访问用courseId和knowledgeId组成的url，得到章节的workId，并将courseId，knowledgeId和workId组成最终的小测验地址；</li>
+<li>对小测验地址进行访问，挨个爬取题目、选项并写入Word文档。<h2 id="思路有了，上代码！"><a href="#思路有了，上代码！" class="headerlink" title="思路有了，上代码！"></a>思路有了，上代码！</h2></li>
+<li>课程ID直接给，组成url并访问，得到页面。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getHtml</span>():</span>  <span class="comment">#得到页面</span></span><br><span class="line">    mUrl = url.replace(<span class="string">&#x27;&#123;&#123;courseId&#125;&#125;&#x27;</span>,courseId)</span><br><span class="line">    response = requests.get(mUrl,headers=mHeaders)</span><br><span class="line">    response.encoding = <span class="string">&#x27;utf-8&#x27;</span></span><br><span class="line">    mHtml = html.unescape(response.text)        <span class="comment">#Html反转义</span></span><br><span class="line">    <span class="comment">#response.encoding = &#x27;utf-8&#x27;</span></span><br><span class="line">    print(mHtml)</span><br><span class="line">    <span class="keyword">return</span> mHtml</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>得到每一个小节的knowledgeId并和courseId组成url，并对爬取的地址进行试探是否是章节的地址。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getCourseUrlList</span>(<span class="params">zhtml</span>):</span>  <span class="comment">#得到可以用的每一个课时的Url</span></span><br><span class="line">    divList = []</span><br><span class="line">    re_rule = <span class="string">&#x27;courseId=&#x27;</span> + courseId + <span class="string">&#x27;&amp;knowledgeId=(.*?)&quot;&gt;&#x27;</span></span><br><span class="line">    <span class="comment"># for i in re.findall(re_rule,html):</span></span><br><span class="line">    <span class="comment">#     divList.append(i)</span></span><br><span class="line">    divList = re.findall(re_rule,zhtml)</span><br><span class="line">    urlList = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> divList:</span><br><span class="line">        mUrl = <span class="string">&#x27;https://mooc1.chaoxing.com/nodedetailcontroller/visitnodedetail?courseId=&#x27;</span>+courseId+<span class="string">&#x27;&amp;knowledgeId=&#x27;</span>+i</span><br><span class="line">        print(mUrl)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            response = requests.get(mUrl,headers=mHeaders,timeout=<span class="number">1</span>)</span><br><span class="line">            <span class="keyword">if</span> response.status_code == <span class="number">200</span>:</span><br><span class="line">                <span class="keyword">if</span> courseId <span class="keyword">in</span> response.text:</span><br><span class="line">                     urlList.append(mUrl)</span><br><span class="line">                     print(<span class="string">&#x27;访问成功&#x27;</span>)</span><br><span class="line">                <span class="keyword">else</span>:</span><br><span class="line">                    print(<span class="string">&#x27;非课程网页&#x27;</span>)</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            print(<span class="string">&#x27;访问失败&#x27;</span>)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> urlList</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>得到workId并和courseId、knowledgeId组成小测验的url。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">getZuoYeUrl</span>(<span class="params">urlList</span>):</span>       <span class="comment">#得到测验的Url</span></span><br><span class="line">    tUrlList = []</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> urlList:</span><br><span class="line">        response = requests.get(i,headers=mHeaders).content.decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">        res = re.findall(<span class="string">&#x27;workid&amp;quot;:&amp;quot;(.*?)&amp;quot;,&#x27;</span>, response)</span><br><span class="line">        <span class="keyword">if</span> len(res):</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> res:</span><br><span class="line">                tUrl = <span class="string">&quot;https://mooc1.chaoxing.com/api/selectWorkQuestion?workId=&quot;</span>+i+<span class="string">&quot;&amp;ut=null&amp;classId=0&amp;courseId=&quot;</span>+courseId</span><br><span class="line">                tUrlList.append(tUrl)</span><br><span class="line">    <span class="keyword">return</span> tUrlList</span><br></pre></td></tr></table></figure>
+<ol start="4">
+<li>访问小测验的地址并爬取标题、题干、选项写入Word文档。</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">writeDocx</span>(<span class="params">urlList</span>):</span>          <span class="comment">#从测验Url中读取题目并写入Word文档</span></span><br><span class="line">    <span class="keyword">for</span> url <span class="keyword">in</span> urlList:</span><br><span class="line">        mHtml = requests.get(url, headers=mHeaders).content.decode(<span class="string">&quot;utf-8&quot;</span>)</span><br><span class="line">        file = docx.Document()</span><br><span class="line">        h3 = re.findall(<span class="string">&#x27;&lt;h3&gt;(.*?)&lt;/h3&gt;&#x27;</span>, mHtml)</span><br><span class="line">        Title = <span class="string">&quot;&quot;</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> h3:</span><br><span class="line">            Title = html.unescape(i)</span><br><span class="line">            file.add_heading(Title)</span><br><span class="line"></span><br><span class="line">        text = html.unescape(mHtml)</span><br><span class="line">        mHtml = etree.HTML(text)  <span class="comment"># 将html转换为xml</span></span><br><span class="line">        timuList = mHtml.xpath(<span class="string">&#x27;//div[@class=&quot;TiMu&quot;]&#x27;</span>)  <span class="comment"># 找到每一个题目及其所有选项</span></span><br><span class="line">        <span class="keyword">for</span> i <span class="keyword">in</span> timuList:</span><br><span class="line">            time.sleep(<span class="number">0.05</span>)</span><br><span class="line">            mStr = etree.tostring(i).decode(<span class="string">&#x27;utf-8&#x27;</span>)  <span class="comment"># 将xml树结点读出并转换为utf-8格式</span></span><br><span class="line">            res = html.unescape(mStr)  <span class="comment"># 解码xml</span></span><br><span class="line">            tType = re.findall(<span class="string">&#x27;(【.*?】)&#x27;</span>, res)</span><br><span class="line">            tRType = []</span><br><span class="line">            <span class="keyword">for</span> a <span class="keyword">in</span> tType:</span><br><span class="line">                p_rule = <span class="string">&#x27;&lt;.*?&gt;&#x27;</span>	</span><br><span class="line">                tRType.append(re.sub(p_rule,<span class="string">&#x27;&#x27;</span>,str(a)))	<span class="comment">#删除所有的html标签</span></span><br><span class="line">            tGan = re.findall(<span class="string">&#x27;】&lt;?p?&gt;?(.*?)&lt;/p&gt;&#x27;</span>, res)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> len(tGan):</span><br><span class="line">                tGan = re.findall(<span class="string">&#x27;&lt;div class=&quot;Zy_TItle_p&quot;&gt;(.*?)&lt;/div&gt;&#x27;</span>, res)</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> len(tGan):</span><br><span class="line">                tGan = re.findall(<span class="string">&#x27;】(.*?)&lt;/div&gt;&#x27;</span>,res)</span><br><span class="line">            tRGan = []</span><br><span class="line">            <span class="keyword">for</span> a <span class="keyword">in</span> tGan:</span><br><span class="line">                p_rule = <span class="string">&#x27;&lt;.*?&gt;&#x27;</span></span><br><span class="line">                tRGan.append(re.sub(p_rule,<span class="string">&#x27;&#x27;</span>,str(a)))</span><br><span class="line">            file.add_paragraph(tRType + tRGan)</span><br><span class="line">            <span class="string">&#x27;&#x27;&#x27;</span></span><br><span class="line"><span class="string">                for j in tType:</span></span><br><span class="line"><span class="string">                print(j)</span></span><br><span class="line"><span class="string">                file.add_paragraph(j)</span></span><br><span class="line"><span class="string">            for j in tGan:</span></span><br><span class="line"><span class="string">                print(j)</span></span><br><span class="line"><span class="string">                file.add_paragraph(j)</span></span><br><span class="line"><span class="string">            &#x27;&#x27;&#x27;</span></span><br><span class="line">            XuanXiang = etree.HTML(res)</span><br><span class="line">            tAny = XuanXiang.xpath(<span class="string">&#x27;//li[@class=&quot;clearfix&quot;]&#x27;</span>)</span><br><span class="line">            <span class="keyword">for</span> j <span class="keyword">in</span> tAny:</span><br><span class="line">                tStr = etree.tostring(j).decode(<span class="string">&#x27;utf-8&#x27;</span>)</span><br><span class="line">                tRes = html.unescape(tStr)</span><br><span class="line">                tXuan = re.findall(<span class="string">&#x27;&lt;i class=&quot;fl&quot;&gt;(.*?)&lt;/i&gt;.*?none;&quot;&gt;&lt;?p?&gt;?(.*?)&lt;?/?p?&gt;?&lt;/a&gt;&lt;/li&gt;&#x27;</span>, tRes)</span><br><span class="line">                tRXuan = []</span><br><span class="line">                <span class="keyword">for</span> a <span class="keyword">in</span> tXuan:</span><br><span class="line">                    tRRXuan = <span class="string">&quot;&quot;</span></span><br><span class="line">                    <span class="keyword">for</span> b <span class="keyword">in</span> a:</span><br><span class="line">                        p_rule = <span class="string">&#x27;&lt;.*?&gt;&#x27;</span></span><br><span class="line">                        tRRXuan = tRRXuan + re.sub(p_rule, <span class="string">&#x27;&#x27;</span>, str(b))</span><br><span class="line">                    tRXuan.append(tRRXuan)</span><br><span class="line">                <span class="keyword">for</span> k <span class="keyword">in</span> tRXuan:</span><br><span class="line">                    file.add_paragraph(k)</span><br><span class="line"></span><br><span class="line">        file.save(<span class="string">&quot;D:\\&quot;</span>+Title+<span class="string">&quot;.docx&quot;</span>)</span><br><span class="line">        file.close()	</span><br><span class="line">        print(Title+<span class="string">&#x27;爬取完成&#x27;</span>)</span><br><span class="line">        time.sleep(<span class="number">0.3</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其余代码</li>
+</ul>
+<ol>
+<li>全局变量及导库（放在开头）</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># coding=utf-8</span></span><br><span class="line"><span class="keyword">from</span> lxml <span class="keyword">import</span> etree</span><br><span class="line"><span class="keyword">import</span> docx</span><br><span class="line"><span class="keyword">import</span> requests</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">import</span> html</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"></span><br><span class="line">url = <span class="string">&quot;https://mooc1.chaoxing.com/course/&#123;&#123;courseId&#125;&#125;.html&quot;</span></span><br><span class="line">mHeaders = &#123;</span><br><span class="line">    <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">r&#x27;Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) &#x27;</span></span><br><span class="line">                  <span class="string">r&#x27;Chrome/45.0.2454.85 Safari/537.36 115Browser/6.0.3&#x27;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>主函数</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&quot;__main__&quot;</span>:</span><br><span class="line">    courseId = <span class="string">&quot;208255733&quot;</span>	<span class="comment">#通过改变courseId可以实现爬取不同的课程，也可以课程号自加循环爬取，但课程量太大，就不一一编写。</span></span><br><span class="line">    zHtml = getHtml()</span><br><span class="line">    canUseUrl = getCourseUrlList(zHtml)</span><br><span class="line">    zuoYeUrl = getZuoYeUrl(canUseUrl)</span><br><span class="line">    writeDocx(zuoYeUrl)</span><br></pre></td></tr></table></figure>
+
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ul>
+<li>经实验，本程序适用于大部分超星学习通课程，课程号可以在访问该课程时的地址栏url中获取。</li>
+<li>不要脸的推荐本人的其余爬虫文章：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_44371842/article/details/105133663">记一次用Python统计全国女性Size</a></li>
+<li>如复制出错，可去博主Github取完整代码<a target="_blank" rel="noopener" href="https://github.com/lrffun/My_Python/tree/master/GetProblemSets">点击直达</a>，记得点个star哦，感激不尽。</li>
+<li>如有大佬发现文章错误，或代码错误，烦请指正，感激不尽。</li>
+<li>创作不易，转载请注明出处，感谢。</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='https://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.xf1433.com/up/view.php/9afe0c372d5dd4641033e61ae0fa82de.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%88%AC%E5%8F%96%E6%B5%81%E7%A8%8B"><span class="toc-number">2.</span> <span class="toc-text">爬取流程</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%95%B2%E4%BB%A3%E7%A0%81%E5%89%8D%E7%9A%84%E8%AF%95%E6%8E%A2"><span class="toc-number">2.1.</span> <span class="toc-text">敲代码前的试探</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E8%AF%95%E6%8E%A2%EF%BC%8C%E6%80%BB%E7%BB%93%E4%B8%80%E4%B8%8B%E7%BC%96%E7%A8%8B%E6%80%9D%E8%B7%AF%E3%80%82"><span class="toc-number">2.2.</span> <span class="toc-text">通过试探，总结一下编程思路。</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF%E6%9C%89%E4%BA%86%EF%BC%8C%E4%B8%8A%E4%BB%A3%E7%A0%81%EF%BC%81"><span class="toc-number">2.3.</span> <span class="toc-text">思路有了，上代码！</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8E%E8%AE%B0"><span class="toc-number">3.</span> <span class="toc-text">后记</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>

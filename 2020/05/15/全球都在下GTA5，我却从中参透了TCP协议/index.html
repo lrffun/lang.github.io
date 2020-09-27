@@ -1,0 +1,200 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>全球都在下GTA5，我却从中参透了TCP协议 - Nero</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Nero,"> 
+    <meta name="description" content="前言
+首先，不得不说，EPIC是真的大方，直接将GTAV免费送，没有领取的小伙伴先点这里白嫖一下，然后开始我们今天的正事。
+可能博主也是等这94个G等迷糊了，想起了TCP的传输过程，文章不长，也是突,"> 
+    <meta name="author" content="Nero"> 
+    <link rel="alternative" href="atom.xml" title="Nero" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Nero</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">全球都在下GTA5，我却从中参透了TCP协议</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">全球都在下GTA5，我却从中参透了TCP协议</h1>
+        <div class="stuff">
+            <span>五月 15, 2020</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><ul>
+<li>首先，不得不说，EPIC是真的大方，直接将GTAV免费送，没有领取的小伙伴先<a target="_blank" rel="noopener" href="https://www.epicgames.com/store/zh-CN/">点这里</a>白嫖一下，然后开始我们今天的正事。</li>
+<li>可能博主也是等这94个G等迷糊了，想起了TCP的传输过程，文章不长，也是突然间想到记下来，大家看个乐呵就行，如果理解有误，请大佬指正。<h1 id="开始分析"><a href="#开始分析" class="headerlink" title="开始分析"></a>开始分析</h1><h2 id="首先附上下载过程图片"><a href="#首先附上下载过程图片" class="headerlink" title="首先附上下载过程图片"></a>首先附上下载过程图片</h2><img src="https://img-blog.csdnimg.cn/2020051514332860.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="GTA5下载"></li>
+</ul>
+<h2 id="TCP可靠传输的实现"><a href="#TCP可靠传输的实现" class="headerlink" title="TCP可靠传输的实现"></a>TCP可靠传输的实现</h2><ul>
+<li>EPIC客户端下载类似Steam，有5个进度条，我也不多废话，直接看最后一个和倒数第二个进度条。</li>
+<li>首先看一个动态图<a target="_blank" rel="noopener" href="http://www.exa.unicen.edu.ar/catedras/comdat1/material/Filminas3_Practico3.swf">点击跳转</a></li>
+<li>看过之后你会发现，最后一个进度条和TCP的传输很像，怎么像呢，下面我来解释下。</li>
+</ul>
+<ol>
+<li>以“字节”为单位：可以把最后一个进度条的一个小方格看成一个字节（虽然肯定比字节大很多），你会发现，他们都是一个一个或一组一组往后传输的。</li>
+<li>检测丢失并重传：深蓝色的是没有传输的，浅蓝色的是丢失的（或错误的），粉色的是传输完成的，绿色的是传输完成并确认（写入）的。偶尔会出现丢失（出现一个浅蓝方格），那么写入就会停止，等待重传后再继续写入。</li>
+<li>有接收缓存：缓存的存在是协调高速设备和低速设备，最后一个进度条就类似缓冲区，写入的速度非常快（达到400M每秒），而下载的速度相较就非常慢，缓冲区的存在协调了这种差距，偶尔写入停止，等待没有错误再继续写入。</li>
+</ol>
+<h1 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h1><ul>
+<li>文章仅代表个人拙见，可能人家设计的进度条根本不是这个意思，但是将其作为TCP传输模型也未尝不可。</li>
+<li>心（xian）血（de）来（dan）潮（teng）记录一下个人发现，如有错误地方，请大佬指正。</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='https://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.xf1433.com/up/view.php/9afe0c372d5dd4641033e61ae0fa82de.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">开始分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E9%99%84%E4%B8%8A%E4%B8%8B%E8%BD%BD%E8%BF%87%E7%A8%8B%E5%9B%BE%E7%89%87"><span class="toc-number">2.1.</span> <span class="toc-text">首先附上下载过程图片</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E5%8F%AF%E9%9D%A0%E4%BC%A0%E8%BE%93%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="toc-number">2.2.</span> <span class="toc-text">TCP可靠传输的实现</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%90%8E%E8%AE%B0"><span class="toc-number">3.</span> <span class="toc-text">后记</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>

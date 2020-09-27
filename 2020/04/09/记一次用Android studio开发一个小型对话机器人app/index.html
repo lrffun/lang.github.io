@@ -1,0 +1,226 @@
+
+<!DOCTYPE html>
+<html lang="en" class="loading">
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>记一次用Android studio开发一个小型对话机器人app - Nero</title>
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="google" content="notranslate" />
+    <meta name="keywords" content="Nero,"> 
+    <meta name="description" content="前言
+偶然在网上看到一个免费机器人接口，所以生此想法，接口地址：http://api.qingyunke.com/，Android开发比爬虫要繁琐得多，所以本文我将细说接口的调用方法，读者可根据思路,"> 
+    <meta name="author" content="Nero"> 
+    <link rel="alternative" href="atom.xml" title="Nero" type="application/atom+xml"> 
+    <link rel="icon" href="/img/favicon.png"> 
+    
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.css">
+
+    
+<link rel="stylesheet" href="/css/diaspora.css">
+
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+    <script>
+         (adsbygoogle = window.adsbygoogle || []).push({
+              google_ad_client: "ca-pub-8691406134231910",
+              enable_page_level_ads: true
+         });
+    </script>
+    <script async custom-element="amp-auto-ads"
+        src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js">
+    </script>
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body class="loading">
+    <span id="config-title" style="display:none">Nero</span>
+    <div id="loader"></div>
+    <div id="single">
+    <div id="top" style="display: block;">
+    <div class="bar" style="width: 0;"></div>
+    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
+    <div title="播放/暂停" class="iconfont icon-play"></div>
+    <h3 class="subtitle">记一次用Android studio开发一个小型对话机器人app</h3>
+    <div class="social">
+        <div>
+            <div class="share">
+                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
+            </div>
+            <div id="qr"></div>
+        </div>
+    </div>
+    <div class="scrollbar"></div>
+</div>
+
+    <div class="section">
+        <div class="article">
+    <div class='main'>
+        <h1 class="title">记一次用Android studio开发一个小型对话机器人app</h1>
+        <div class="stuff">
+            <span>四月 09, 2020</span>
+            
+
+        </div>
+        <div class="content markdown">
+            <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><ul>
+<li>偶然在网上看到一个免费机器人接口，所以生此想法，接口地址：<a target="_blank" rel="noopener" href="http://api.qingyunke.com/%EF%BC%8CAndroid%E5%BC%80%E5%8F%91%E6%AF%94%E7%88%AC%E8%99%AB%E8%A6%81%E7%B9%81%E7%90%90%E5%BE%97%E5%A4%9A%EF%BC%8C%E6%89%80%E4%BB%A5%E6%9C%AC%E6%96%87%E6%88%91%E5%B0%86%E7%BB%86%E8%AF%B4%E6%8E%A5%E5%8F%A3%E7%9A%84%E8%B0%83%E7%94%A8%E6%96%B9%E6%B3%95%EF%BC%8C%E8%AF%BB%E8%80%85%E5%8F%AF%E6%A0%B9%E6%8D%AE%E6%80%9D%E8%B7%AF%E5%8E%BB%E7%BD%91%E4%B8%8A%E6%89%BE%E4%B8%80%E4%BA%9B%E5%85%8D%E8%B4%B9%E6%8E%A5%E5%8F%A3%E6%8B%BF%E6%9D%A5%E7%8E%A9%EF%BC%8C%E5%85%B6%E4%BB%96%E4%BB%A3%E7%A0%81%E4%B8%80%E5%B8%A6%E8%80%8C%E8%BF%87%EF%BC%8C%E8%AF%A6%E7%BB%86%E6%BA%90%E7%A0%81%E8%A7%81%E6%96%87%E6%9C%AB%E3%80%82">http://api.qingyunke.com/，Android开发比爬虫要繁琐得多，所以本文我将细说接口的调用方法，读者可根据思路去网上找一些免费接口拿来玩，其他代码一带而过，详细源码见文末。</a></li>
+<li>成品展示：<img src="https://img-blog.csdnimg.cn/20200409104838283.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+</ul>
+<h2 id="开发步骤"><a href="#开发步骤" class="headerlink" title="开发步骤"></a>开发步骤</h2><h3 id="（1）新建项目empty，必要可github托管。"><a href="#（1）新建项目empty，必要可github托管。" class="headerlink" title="（1）新建项目empty，必要可github托管。"></a>（1）新建项目empty，必要可github托管。</h3><h3 id="（2）先写页面"><a href="#（2）先写页面" class="headerlink" title="（2）先写页面"></a>（2）先写页面</h3><ul>
+<li>在res-&gt;layout目录下新建两个layout xml file<br><img src="https://img-blog.csdnimg.cn/20200409105424366.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
+<li>activity_main作为主页面，msg_item为附在其上的消息页面。（具体代码见文末）</li>
+<li>这里再acitvity_main采用的不是ListView而是RecyclerView。<h3 id="（3）写接口调用"><a href="#（3）写接口调用" class="headerlink" title="（3）写接口调用"></a>（3）写接口调用</h3></li>
+<li>首先封装一个RobotManager类，用于接收用户输入之后对Url进行封装。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RobotManager</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> String  url = <span class="string">&quot;http://api.qingyunke.com/api.php?key=free&amp;appid=0&amp;msg=!!&quot;</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> String <span class="title">getUrl</span><span class="params">(String question)</span></span>&#123;</span><br><span class="line">        String real_url = url.replace(<span class="string">&quot;!!&quot;</span>,question);<span class="comment">//将url中的!!替换为用户输入的内容</span></span><br><span class="line">        <span class="keyword">return</span> real_url;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>其次在java-&gt;第一个包下创建一个接口GetConnection，用来接收接口返回的返回。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">GetConnection</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onFinish</span><span class="params">(String response)</span></span>;	<span class="comment">//返回正常</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onError</span><span class="params">(Exception e)</span></span>;	<span class="comment">//返回错误</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>然后开始写MyConnection类，调用接口，给参，并通过GetConnection接口将网上接口返回的数据传递出去。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyConnection</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">getResponse</span><span class="params">(<span class="keyword">final</span> String url,<span class="keyword">final</span> GetConnection getConnection)</span></span>&#123;</span><br><span class="line">        <span class="keyword">new</span> Thread(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                HttpURLConnection connection;</span><br><span class="line">                <span class="keyword">try</span>&#123;</span><br><span class="line">                    URL Url = <span class="keyword">new</span> URL(url);</span><br><span class="line">                    connection = (HttpURLConnection) Url.openConnection();</span><br><span class="line">                    connection.setRequestMethod(<span class="string">&quot;GET&quot;</span>);<span class="comment">//Get方法</span></span><br><span class="line">                    connection.setConnectTimeout(<span class="number">2000</span>);<span class="comment">//延时时间</span></span><br><span class="line">                    connection.setReadTimeout(<span class="number">3000</span>);</span><br><span class="line">                    connection.setDoInput(<span class="keyword">true</span>);</span><br><span class="line">                    InputStream in = connection.getInputStream();</span><br><span class="line">                    BufferedReader reader = <span class="keyword">new</span> BufferedReader(<span class="keyword">new</span> InputStreamReader(in));</span><br><span class="line">                    StringBuilder response = <span class="keyword">new</span> StringBuilder();</span><br><span class="line">                    String line;</span><br><span class="line">                    <span class="keyword">while</span> ((line = reader.readLine()) != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        response.append(line);</span><br><span class="line">                    &#125;</span><br><span class="line">                    Log.e(<span class="string">&quot;result&quot;</span>,response.toString());</span><br><span class="line">                    <span class="keyword">if</span> (getConnection != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        getConnection.onFinish(response.toString());</span><br><span class="line">                    &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">                        Log.e(<span class="string">&quot;WeiNull&quot;</span>,<span class="string">&quot;WeiNull&quot;</span>);<span class="comment">//测试时用的，无须关心。</span></span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;<span class="keyword">catch</span>(IOException io) &#123;</span><br><span class="line">                    <span class="keyword">if</span> (getConnection != <span class="keyword">null</span>) &#123;</span><br><span class="line">                        getConnection.onError(io);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;).start();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="（4）写页面逻辑"><a href="#（4）写页面逻辑" class="headerlink" title="（4）写页面逻辑"></a>（4）写页面逻辑</h3><ul>
+<li>页面逻辑主要是将从接口得到的内容渲染到页面上。首先进行一系列初始化，绑定布局，然后监听按钮点击接收用户输入，调用MyConnection类传入url,输入内容接收接口返回内容，同时用handler动态更新页面。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;Msg&gt; msgList = <span class="keyword">new</span> ArrayList&lt;Msg&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> EditText inputText;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Button send;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> RecyclerView msgRecyclerView;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> MsgAdapter adapter;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Handler handler = <span class="keyword">new</span> Handler()&#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(<span class="meta">@NonNull</span> Message msg)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">switch</span> (msg.what)&#123;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">1</span>:&#123;</span><br><span class="line">                    Bundle data = msg.getData();</span><br><span class="line">                    String result = data.getString(<span class="string">&quot;result&quot;</span>);</span><br><span class="line">                    Msg robotMsg = <span class="keyword">new</span> Msg(result,Msg.TYPE_RECEIVED);</span><br><span class="line">                    msgList.add(robotMsg);</span><br><span class="line">                    adapter.notifyItemInserted(msgList.size() - <span class="number">1</span>); <span class="comment">// 当有新消息时，刷新ListView中的显示</span></span><br><span class="line">                    msgRecyclerView.scrollToPosition(msgList.size() - <span class="number">1</span>); <span class="comment">// 将ListView定位到最后一行</span></span><br><span class="line">                &#125;<span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">case</span> <span class="number">2</span>:&#123;&#125;<span class="keyword">break</span>;</span><br><span class="line">                <span class="keyword">default</span>:<span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">getInter</span><span class="params">(String content)</span></span>&#123;</span><br><span class="line">        MyConnection.getResponse(RobotManager.getUrl(content), <span class="keyword">new</span> GetConnection() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFinish</span><span class="params">(String response)</span> </span>&#123;</span><br><span class="line">                ContentBean contentBean = <span class="keyword">new</span> ContentBean();</span><br><span class="line">                Log.e(<span class="string">&quot;getResult&quot;</span>,response);</span><br><span class="line">                Message msg = <span class="keyword">new</span> Message();</span><br><span class="line">                Bundle data = <span class="keyword">new</span> Bundle();</span><br><span class="line">                Gson gson = <span class="keyword">new</span> Gson();</span><br><span class="line">                contentBean = gson.fromJson(response,ContentBean.class);	<span class="comment">//用Gson将返回内容序列化为ContentBean对象。</span></span><br><span class="line">                <span class="keyword">if</span>(contentBean.getResult()==<span class="number">0</span>)&#123;</span><br><span class="line">                    data.putString(<span class="string">&quot;result&quot;</span>,contentBean.getContent());</span><br><span class="line">                &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">                    data.putString(<span class="string">&quot;result&quot;</span>,<span class="string">&quot;我听不懂你在说什么呀！&quot;</span>);</span><br><span class="line">                &#125;</span><br><span class="line">                msg.setData(data);</span><br><span class="line">                msg.what = <span class="number">1</span>;</span><br><span class="line">                handler.sendMessage(msg);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onError</span><span class="params">(Exception e)</span> </span>&#123;</span><br><span class="line">                e.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line">        initMsgs(); <span class="comment">// 初始化消息数据</span></span><br><span class="line">        inputText = findViewById(R.id.input_text);</span><br><span class="line">        send =  findViewById(R.id.send);</span><br><span class="line">        msgRecyclerView =  findViewById(R.id.msg_recycler_view);</span><br><span class="line">        LinearLayoutManager layoutManager = <span class="keyword">new</span> LinearLayoutManager(<span class="keyword">this</span>);</span><br><span class="line">        msgRecyclerView.setLayoutManager(layoutManager);</span><br><span class="line">        adapter = <span class="keyword">new</span> MsgAdapter(msgList);</span><br><span class="line">        msgRecyclerView.setAdapter(adapter);</span><br><span class="line">        send.setOnClickListener(<span class="keyword">new</span> View.OnClickListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span> </span>&#123;</span><br><span class="line">                String content = inputText.getText().toString();</span><br><span class="line">                <span class="keyword">if</span> (!<span class="string">&quot;&quot;</span>.equals(content)) &#123;</span><br><span class="line">                    Msg msg = <span class="keyword">new</span> Msg(content, Msg.TYPE_SENT);</span><br><span class="line">                    msgList.add(msg);</span><br><span class="line">                    getInter(content);</span><br><span class="line">                    Log.e(<span class="string">&quot;url&quot;</span>,RobotManager.getUrl(content));</span><br><span class="line">                    adapter.notifyItemInserted(msgList.size() - <span class="number">1</span>); <span class="comment">// 当有新消息时，刷新ListView中的显示</span></span><br><span class="line">                    msgRecyclerView.scrollToPosition(msgList.size() - <span class="number">1</span>); <span class="comment">// 将ListView定位到最后一行</span></span><br><span class="line">                    inputText.setText(<span class="string">&quot;&quot;</span>); <span class="comment">// 清空输入框中的内容</span></span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initMsgs</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        Msg msg1 = <span class="keyword">new</span> Msg(<span class="string">&quot;我是菲菲，快来和我聊天吧* ( ´͈ ᵕ `͈ )◞♡&quot;</span>, Msg.TYPE_RECEIVED);</span><br><span class="line">        msgList.add(msg1);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<ul>
+<li>由于接口返回的数据是Json格式，所以我们需要对Json进行解析，本文采用google的Gson库对其进行解析，将接口内容序列化为一个类ContentBean。解析过程见上面代码。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ContentBean</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * result : 0</span></span><br><span class="line"><span class="comment">     * content : [04月08日] 邯郸天气：小雨，白天 17℃，夜晚 9℃，微风，&lt;3级转3-4级</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> result;</span><br><span class="line">    <span class="keyword">private</span> String content;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getResult</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setResult</span><span class="params">(<span class="keyword">int</span> result)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.result = result;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getContent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setContent</span><span class="params">(String content)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.content = content;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="（5）其余代码"><a href="#（5）其余代码" class="headerlink" title="（5）其余代码"></a>（5）其余代码</h3><ul>
+<li>Msg和MsgAdapter用于解析消息是发送方还是接收方<br>并展示在消息列表上</li>
+<li>Msg</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Msg</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TYPE_RECEIVED = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> TYPE_SENT = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> String content;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> type;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Msg</span><span class="params">(String content, <span class="keyword">int</span> type)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.content = content;</span><br><span class="line">        <span class="keyword">this</span>.type = type;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getContent</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> content;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getType</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> type;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>MsgAdapter</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MsgAdapter</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">Adapter</span>&lt;<span class="title">MsgAdapter</span>.<span class="title">ViewHolder</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> List&lt;Msg&gt; mMsgList;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">ViewHolder</span> <span class="keyword">extends</span> <span class="title">RecyclerView</span>.<span class="title">ViewHolder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        LinearLayout leftLayout;</span><br><span class="line"></span><br><span class="line">        LinearLayout rightLayout;</span><br><span class="line"></span><br><span class="line">        TextView leftMsg;</span><br><span class="line"></span><br><span class="line">        TextView rightMsg;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">ViewHolder</span><span class="params">(View view)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(view);</span><br><span class="line">            leftLayout = (LinearLayout) view.findViewById(R.id.left_layout);</span><br><span class="line">            rightLayout = (LinearLayout) view.findViewById(R.id.right_layout);</span><br><span class="line">            leftMsg = (TextView) view.findViewById(R.id.left_msg);</span><br><span class="line">            rightMsg = (TextView) view.findViewById(R.id.right_msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">MsgAdapter</span><span class="params">(List&lt;Msg&gt; msgList)</span> </span>&#123;</span><br><span class="line">        mMsgList = msgList;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> ViewHolder <span class="title">onCreateViewHolder</span><span class="params">(ViewGroup parent, <span class="keyword">int</span> viewType)</span> </span>&#123;</span><br><span class="line">        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.msg_item, parent, <span class="keyword">false</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ViewHolder(view);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onBindViewHolder</span><span class="params">(ViewHolder holder, <span class="keyword">int</span> position)</span> </span>&#123;</span><br><span class="line">        Msg msg = mMsgList.get(position);</span><br><span class="line">        <span class="keyword">if</span> (msg.getType() == Msg.TYPE_RECEIVED) &#123;</span><br><span class="line">            <span class="comment">// 如果是收到的消息，则显示左边的消息布局，将右边的消息布局隐藏</span></span><br><span class="line">            holder.leftLayout.setVisibility(View.VISIBLE);</span><br><span class="line">            holder.rightLayout.setVisibility(View.GONE);</span><br><span class="line">            holder.leftMsg.setText(msg.getContent());</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span>(msg.getType() == Msg.TYPE_SENT) &#123;</span><br><span class="line">            <span class="comment">// 如果是发出的消息，则显示右边的消息布局，将左边的消息布局隐藏</span></span><br><span class="line">            holder.rightLayout.setVisibility(View.VISIBLE);</span><br><span class="line">            holder.leftLayout.setVisibility(View.GONE);</span><br><span class="line">            holder.rightMsg.setText(msg.getContent());</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getItemCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mMsgList.size();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="尾声"><a href="#尾声" class="headerlink" title="尾声"></a>尾声</h2><ul>
+<li>以上代码可复制使用，但其中有一些图片，类库什么的需要自行导入，完整代码见github：<a target="_blank" rel="noopener" href="https://github.com/lrffun/PiggyRobot">点击此处直达</a></li>
+<li><a target="_blank" rel="noopener" href="https://download.csdn.net/download/weixin_44371842/12316725">完整项目+apk安装包直接下载地址</a></li>
+<li>该项目是我早期项目，只是为了记录当初的开发流程，所以并不存在什么设计模式，代码结构也比较乱，注释也比较少，如果有任何问题，欢迎添加我的QQ询问！<br><img src="https://img-blog.csdnimg.cn/2020040911432093.jpg?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"><blockquote>
+<p>Tip：本文代码，内容均个人原创，个别代码曾经参考过资料，如涉及侵权请联系作者删除。</p>
+</blockquote>
+</li>
+</ul>
+
+            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
+            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
+                <source type="audio/mpeg" src="">
+            </audio>
+            
+                <ul id="audio-list" style="display:none">
+                    
+                        
+                            <li title='0' data-url='https://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
+                        
+                    
+                        
+                            <li title='1' data-url='http://music.xf1433.com/up/view.php/9afe0c372d5dd4641033e61ae0fa82de.mp3'></li>
+                        
+                    
+                </ul>
+            
+        </div>
+        
+    <div id='gitalk-container' class="comment link"
+		data-enable='true'
+        data-ae='false'
+        data-ci=''
+        data-cs=''
+        data-r=''
+        data-o=''
+        data-a=''
+        data-d='false'
+    >查看评论</div>
+
+
+    </div>
+    
+        <div class='side'>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%BC%80%E5%8F%91%E6%AD%A5%E9%AA%A4"><span class="toc-number">2.</span> <span class="toc-text">开发步骤</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%881%EF%BC%89%E6%96%B0%E5%BB%BA%E9%A1%B9%E7%9B%AEempty%EF%BC%8C%E5%BF%85%E8%A6%81%E5%8F%AFgithub%E6%89%98%E7%AE%A1%E3%80%82"><span class="toc-number">2.1.</span> <span class="toc-text">（1）新建项目empty，必要可github托管。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%882%EF%BC%89%E5%85%88%E5%86%99%E9%A1%B5%E9%9D%A2"><span class="toc-number">2.2.</span> <span class="toc-text">（2）先写页面</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%883%EF%BC%89%E5%86%99%E6%8E%A5%E5%8F%A3%E8%B0%83%E7%94%A8"><span class="toc-number">2.3.</span> <span class="toc-text">（3）写接口调用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%884%EF%BC%89%E5%86%99%E9%A1%B5%E9%9D%A2%E9%80%BB%E8%BE%91"><span class="toc-number">2.4.</span> <span class="toc-text">（4）写页面逻辑</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%EF%BC%885%EF%BC%89%E5%85%B6%E4%BD%99%E4%BB%A3%E7%A0%81"><span class="toc-number">2.5.</span> <span class="toc-text">（5）其余代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%BE%E5%A3%B0"><span class="toc-number">3.</span> <span class="toc-text">尾声</span></a></li></ol>	
+        </div>
+    
+</div>
+
+
+    </div>
+</div>
+</body>
+
+<script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
+
+
+<script src="//lib.baomitu.com/jquery/1.8.3/jquery.min.js"></script>
+<script src="/js/plugin.js"></script>
+<script src="/js/typed.js"></script>
+<script src="/js/diaspora.js"></script>
+
+
+<link rel="stylesheet" href="/photoswipe/photoswipe.css">
+<link rel="stylesheet" href="/photoswipe/default-skin/default-skin.css">
+
+
+<script src="/photoswipe/photoswipe.min.js"></script>
+<script src="/photoswipe/photoswipe-ui-default.min.js"></script>
+
+
+<!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+            <div class="pswp__top-bar">
+                <!--  Controls are self-explanatory. Order can be changed. -->
+                <div class="pswp__counter"></div>
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+                <button class="pswp__button pswp__button--share" title="Share"></button>
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</html>
