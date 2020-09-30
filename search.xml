@@ -28,6 +28,14 @@
 <li>时间——2020年5月21日。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>比赛</category>
+        <category>随手记</category>
+      </categories>
+      <tags>
+        <tag>随手记</tag>
+        <tag>比赛</tag>
+      </tags>
   </entry>
   <entry>
     <title>Kotlin基础语法（上）</title>
@@ -81,6 +89,13 @@
 </ul>
 <h2 id="Kotlin默认参数和具名参数"><a href="#Kotlin默认参数和具名参数" class="headerlink" title="Kotlin默认参数和具名参数"></a>Kotlin默认参数和具名参数</h2><figure class="highlight kotlin"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> java.util.TreeMap</span><br><span class="line"></span><br><span class="line"><span class="keyword">val</span> Pi = <span class="number">3.1415926f</span>         <span class="comment">//val类似java中的final</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> <span class="title">main</span><span class="params">(args:<span class="type">Array</span>&lt;<span class="type">String</span>&gt;)</span></span>&#123;</span><br><span class="line">	<span class="keyword">var</span> area = 获取长方形面积(<span class="number">3</span>,<span class="number">2</span>)</span><br><span class="line">    println(area)</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">var</span> area2 = 获取圆的周长(半径 = <span class="number">2.0f</span>)   <span class="comment">//由于第一个参数是具名参数，所以需要指定：第二个参数名 = 值</span></span><br><span class="line">    println(area2)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> 获取长方形面积<span class="params">(长:<span class="type">Int</span>,宽:<span class="type">Int</span>)</span></span>:<span class="built_in">Int</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> 长*宽</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> 获取圆的周长<span class="params">(PI:<span class="type">Float</span> = Pi,半径:<span class="type">Float</span>)</span></span>:<span class="built_in">Float</span>&#123;   <span class="comment">//PI:Float = Pi 指定第一个参数为具名参数</span></span><br><span class="line">    <span class="keyword">return</span> <span class="number">2</span>*PI*半径</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> 获取圆的周长2<span class="params">(PI:<span class="type">Float</span> = Pi,直径:<span class="type">Float</span>)</span></span>:<span class="built_in">Float</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> PI*直径</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> 获取圆柱体体积<span class="params">(PI:<span class="type">Float</span> = Pi,半径:<span class="type">Float</span>,高:<span class="type">Float</span>)</span></span>:<span class="built_in">Float</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> PI*半径*半径*高</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">fun</span> 获取球体的表面积<span class="params">(PI:<span class="type">Float</span> = Pi,半径:<span class="type">Float</span>)</span></span>:<span class="built_in">Float</span>&#123;</span><br><span class="line">    <span class="keyword">return</span> PI*半径*半径*<span class="number">4</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 ]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>Kotlin</tag>
+      </tags>
   </entry>
   <entry>
     <title>Kotlin基础语法（下）</title>
@@ -150,6 +165,13 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>Kotlin</tag>
+      </tags>
   </entry>
   <entry>
     <title>MSF基本命令及实例</title>
@@ -394,6 +416,13 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>MSF</category>
+      </categories>
+      <tags>
+        <tag>学习笔记</tag>
+        <tag>MSF</tag>
+      </tags>
   </entry>
   <entry>
     <title>全球都在下GTA5，我却从中参透了TCP协议</title>
@@ -417,6 +446,12 @@
 <li>心（xian）血（de）来（dan）潮（teng）记录一下个人发现，如有错误地方，请大佬指正。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
   </entry>
   <entry>
     <title>一次Pandas踩坑记录（为什么Dataframe创建时指定的列名和列不对应）</title>
@@ -427,6 +462,13 @@
 <li>因为一个小马虎耽误了这么长时间(\捂脸)。发此文记录下自己的马虎经历，也给读者们作反面教材。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>随手记</category>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+      </tags>
   </entry>
   <entry>
     <title>记一次用Android studio开发一个小型对话机器人app</title>
@@ -477,6 +519,14 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>项目笔记</category>
+        <category>Android</category>
+      </categories>
+      <tags>
+        <tag>项目笔记</tag>
+        <tag>Android</tag>
+      </tags>
   </entry>
   <entry>
     <title>记一次用Python挑战SQL注入</title>
@@ -520,6 +570,14 @@
 <li>本次SQL注入到此结束，还愣着干啥，点赞关注走一走啊。。。。（￣︶￣）↗</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>渗透测试</category>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>渗透测试</tag>
+      </tags>
   </entry>
   <entry>
     <title>记一次用Python爬取代理IP并使用（尝试用代理IP制造直播房间访问量）</title>
@@ -558,6 +616,14 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>爬虫笔记</category>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>爬虫</tag>
+      </tags>
   </entry>
   <entry>
     <title>记一次用Python爬取超星学习通课后小测验并写入Word文档（完整思路）</title>
@@ -622,6 +688,14 @@
 <li>创作不易，转载请注明出处，感谢。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>爬虫笔记</category>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>爬虫</tag>
+      </tags>
   </entry>
   <entry>
     <title>记一次用Python统计全国女性Size</title>
@@ -666,6 +740,14 @@
 </li>
 </ul>
 ]]></content>
+      <categories>
+        <category>爬虫笔记</category>
+        <category>Python</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>爬虫</tag>
+      </tags>
   </entry>
   <entry>
     <title>连三次握手，四次挥手都不知道，还敢说自己是学IT的？</title>
@@ -714,5 +796,11 @@
 <li>转载请注明出处。</li>
 </ul>
 ]]></content>
+      <categories>
+        <category>学习笔记</category>
+      </categories>
+      <tags>
+        <tag>计算机网络</tag>
+      </tags>
   </entry>
 </search>

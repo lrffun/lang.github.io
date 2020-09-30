@@ -5,14 +5,12 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
     <meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>一次Pandas踩坑记录（为什么Dataframe创建时指定的列名和列不对应） - Nero</title>
+    <title>Category: 项目笔记 - Nero</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="google" content="notranslate" />
     <meta name="keywords" content="Nero,"> 
-    <meta name="description" content="
-最近做课设的时候遇到一个特别头疼的问题，在将ndarray转换为dataframe时，指定的列名就是对应不起来（如下图），四处询问，查看pandas源码均无果。
-解决方法：一次偶然的尝试我发现错误,"> 
+    
     <meta name="author" content="Nero"> 
     <link rel="alternative" href="atom.xml" title="Nero" type="application/atom+xml"> 
     <link rel="icon" href="/img/favicon.png"> 
@@ -37,83 +35,106 @@
 <body class="loading">
     <span id="config-title" style="display:none">Nero</span>
     <div id="loader"></div>
-    <div id="single">
-    <div id="top" style="display: block;">
-    <div class="bar" style="width: 0;"></div>
-    <a class="iconfont icon-home image-icon" href="javascript:;" data-url="http://example.com"></a>
-    <div title="播放/暂停" class="iconfont icon-play"></div>
-    <h3 class="subtitle">一次Pandas踩坑记录（为什么Dataframe创建时指定的列名和列不对应）</h3>
-    <div class="social">
-        <div>
-            <div class="share">
-                <a title="获取二维码" class="iconfont icon-scan" href="javascript:;"></a>
-            </div>
-            <div id="qr"></div>
-        </div>
-    </div>
-    <div class="scrollbar"></div>
-</div>
-
-    <div class="section">
-        <div class="article">
-    <div class='main'>
-        <h1 class="title">一次Pandas踩坑记录（为什么Dataframe创建时指定的列名和列不对应）</h1>
-        <div class="stuff">
-            <span>七月 24, 2020</span>
-            
-  <ul class="post-tags-list" itemprop="keywords"><li class="post-tags-list-item"><a class="post-tags-list-link" href="/tags/Python/" rel="tag">Python</a></li></ul>
-
-
-        </div>
-        <div class="content markdown">
-            <ul>
-<li>最近做课设的时候遇到一个特别头疼的问题，在将ndarray转换为dataframe时，指定的列名就是对应不起来（如下图），四处询问，查看pandas源码均无果。<br><img src="https://img-blog.csdnimg.cn/20200724163815215.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3dlaXhpbl80NDM3MTg0Mg==,size_16,color_FFFFFF,t_70" alt="在这里插入图片描述"></li>
-<li>解决方法：一次偶然的尝试我发现错误原因，Dataframe创建时指定列名columns应该是数组形式而不是字典形式，也就是说应该用“[]”而不是“{}”。</li>
-<li>因为一个小马虎耽误了这么长时间(\捂脸)。发此文记录下自己的马虎经历，也给读者们作反面教材。</li>
-</ul>
-
-            <!--[if lt IE 9]><script>document.createElement('audio');</script><![endif]-->
-            <audio id="audio" loop="1" preload="auto" controls="controls" data-autoplay="true">
-                <source type="audio/mpeg" src="">
-            </audio>
-            
-                <ul id="audio-list" style="display:none">
-                    
-                        
-                            <li title='0' data-url='https://link.hhtjim.com/qq/001faIUs4M2zna.mp3'></li>
-                        
-                    
-                        
-                            <li title='1' data-url='http://music.xf1433.com/up/view.php/9afe0c372d5dd4641033e61ae0fa82de.mp3'></li>
-                        
-                    
-                </ul>
-            
-        </div>
+    <div class="nav">
+    <ul id="menu-menu" class="menu">
         
-    <div id='gitalk-container' class="comment link"
-		data-enable='true'
-        data-ae='false'
-        data-ci='5e547789c31cfbe591b4'
-        data-cs='92be1e5050a761fd700138c4316c783d315a63b0'
-        data-r='lrffun.github.io'
-        data-o='lrffun'
-        data-a='lrffun'
-        data-d='true'
-    >查看评论</div>
+        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="//" title="首页" target="_blank" rel="noopener">首页</a>
+        </li>
+        
+        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/categories/" title="分类" target="_blank" rel="noopener">分类</a>
+        </li>
+        
+        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/tags/" title="标签" target="_blank" rel="noopener">标签</a>
+        </li>
+        
+        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/archives/" title="归档" target="_blank" rel="noopener">归档</a>
+        </li>
+        
+        <li class="pview menu-item menu-item-type-post_type menu-item-object-page">
+            <a href="/about/" title="关于" target="_blank" rel="noopener">关于</a>
+        </li>
+        
+    </ul>
+	<span class="target"></span>
+	<center>
+	<div class="hitokoto">
+		<span class="typed" id="hitokoto" data-st="true"></span>
+	</div>
+	</center>
+	
+	<p class="footerlinks">
+		<a href="#" class="iconfont icon-null"></a>
+		
+            <a href="https://www.facebook.com/nero.lang.982" title="facebook" class="iconfont icon-facebook" target="_blank" rel="noopener"> </a>
+        
+            <a href="https://twitter.com/Nero01776205" title="twitter" class="iconfont icon-twitter" target="_blank" rel="noopener"> </a>
+        
+            <a href="https://github.com/lrffun/" title="github" class="iconfont icon-github" target="_blank" rel="noopener"> </a>
+        
+            <a href="/img/wechat.png" title="wechat" class="iconfont icon-wechat" target="_blank" rel="noopener"> </a>
+        
+            <a href="mailto:lang1863239@163.com" title="email" class="iconfont icon-email" target="_blank" rel="noopener"> </a>
+        
+		<a href="#" class="iconfont icon-null"></a>
+	</p>
+	
+    <p id="copyright">
+        &copy; 2020 Nero.
+        <span> | </span>Powered by <a href="https://hexo.io/" title="Hexo" target="_blank" rel="noopener">Hexo</a>
+        <span> | </span>Theme <a href="https://github.com/Fechin/hexo-theme-diaspora" title="Diaspora" target="_blank" rel="noopener">Diaspora</a> by Fechin
+		
+		<span> | </span><a rel="nofollow" href="http://www.beian.miit.gov.cn" target="_blank">冀ICP备20007646号</a>
+		
+    </p>
+</div>
 
-
-    </div>
+<div id="container">
     
-        <div class='side'>
-				
+<div id="screen">
+    <div id="mark">
+        <div class="layer" data-depth="0.4">
+            <img src="/img/welcome-cover.jpg" id="cover" crossorigin="anonymous" width="1920" height="1080">
         </div>
+    </div>
+    <div id="vibrant">
+        <svg viewBox="0 0 2880 1620" height="100%" preserveAspectRatio="xMaxYMax slice">
+            <polygon opacity="0.7" points="2000,1620 0,1620 0,0 600,0 "/>
+        </svg>
+        <div></div>
+    </div>
+    <div id="header">
+        <div>
+            <a class="image-logo" href="/"></a>
+			
+			<div class="iconfont icon-search switchsearch" href="/search/" title="搜索"></div>
+			
+            <div class="iconfont icon-menu switchmenu"></div>
+        </div>
+    </div>
+    
+    <div id="post0">
+        <p>四月 09, 2020</p>
+        <h2><a href="/2020/04/09/%E8%AE%B0%E4%B8%80%E6%AC%A1%E7%94%A8Android%20studio%E5%BC%80%E5%8F%91%E4%B8%80%E4%B8%AA%E5%B0%8F%E5%9E%8B%E5%AF%B9%E8%AF%9D%E6%9C%BA%E5%99%A8%E4%BA%BAapp/" title="记一次用Android studio开发一个小型对话机器人app" class="posttitle">记一次用Android studio开发一个小型对话机器人app</a></h2>
+        <p class="summary">前言
+偶然在网上看到一个免费机器人接口，所以生此想法，接口地址：http://api.qingyunke.com/...</p>
+    </div>
     
 </div>
 
-
+    <div id="primary">
+        
     </div>
+    
 </div>
+<div id="preview"></div>
+
+
+
+
 </body>
 
 <script src="//cdn.jsdelivr.net/npm/gitalk@1/dist/gitalk.min.js"></script>
